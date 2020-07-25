@@ -7,25 +7,37 @@ const urlId = new URLSearchParams(window.location.search).get('id')
 
 
 let player;
+let playButton;
 function onYouTubeIframeAPIReady() {
-player = new YT.Player('player', {
-    height: '720',
-    width: '1280',
-    videoId: urlId,
-    playerVars: {
-        controls: '0',
-        enablejsapi: '1',
-        showinfo: '0',
-        loop: '1',
-        modestbranding: '1',
-        rel: '0',
-        playlist: urlId
-    },
-    events: {
-    'onReady': onPlayerReady,
-    'onStateChange': onPlayerStateChange
+    player = new YT.Player('player', {
+        height: '720',
+        width: '1280',
+        videoId: urlId,
+        playerVars: {
+            fs: '0',
+            controls: '0',
+            enablejsapi: '1',
+            showinfo: '0',
+            loop: '1',
+            modestbranding: '1',
+            rel: '0',
+            playlist: urlId
+        },
+        events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+        }
+    });
+
+    const confirm = document.querySelector("#confirm")
+    confirm.onclick = event => {
+        event.preventDefault()
+        const youtubeId = document.querySelector("#youtube-id").value
+        console.log(youtubeId)
+        document.location = `index.html?id=${youtubeId}`
     }
-});
+    playButton = document.querySelector("#play")
+    
 }
 
 function onPlayerReady(event) {
@@ -34,6 +46,15 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-        console.log(player.getCurrentTime())
+        playButton.onclick = () => {
+            player.pauseVideo()
+        }
+        playButton.value = "||"
+    }
+    if (event.data == YT.PlayerState.PAUSED || event.data == -1) {
+        playButton.onclick = () => {
+            player.playVideo()
+        }
+        playButton.value = "►"
     }
 }
