@@ -33,11 +33,22 @@ function onYouTubeIframeAPIReady() {
     confirm.onclick = event => {
         event.preventDefault()
         const youtubeId = document.querySelector("#youtube-id").value
-        console.log(youtubeId)
         document.location = `index.html?id=${youtubeId}`
     }
     playButton = document.querySelector("#play")
     
+    const back = document.querySelector("#back")
+    const advance = document.querySelector("#advance")
+
+    back.onclick = event => {
+        event.preventDefault()
+        player.seekTo(player.getCurrentTime() - 10, true)
+    }
+
+    advance.onclick = event => {
+        event.preventDefault()
+        player.seekTo(player.getCurrentTime() + 10, true)
+    }
 }
 
 function onPlayerReady(event) {
