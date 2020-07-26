@@ -5,13 +5,24 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Test</title>
             <script src="./iframe.js"></script>
+            <link rel="stylesheet" href="main.css">
         </head>
         <body style="margin: 0">
             <div id="player"></div>
-            <input placeholder="Preencha com o id do video" type="text" id="youtube-id">
-            <input value="confirmar" type="button" id="confirm">
-            <input id="back" type="button" value="<<">
-            <input id="play" type="button" value="►">
-            <input id="advance" type="button" value=">>">
+            <div>
+                <input placeholder="Preencha com o id do video" type="text" id="youtube-id">
+                <input value="confirmar" type="button" id="confirm">
+                <input id="back" type="button" value="<<">
+                <input id="play" type="button" value="►">
+                <input id="advance" type="button" value=">>">
+                <input type="button" id="mute-button" value="mute">
+            </div>
+            <div>
+                <div id="timeline">
+                    <p id="start-time"></p>
+                    <p id="end-time"></p>
+
+                </div>
+            </div>
         </body>
     </html>

@@ -1,0 +1,20 @@
+#timeline {
+    background-color: black;
+    height: 5vh;
+    width: 80vw;
+    margin: auto;
+    opacity: 80%;
+}
+
+p {
+    display: inline-block;
+    margin: 0;
+    color: black;
+    position: relative;
+    top: 5vh;
+    font-size: small;
+}
+
+#end-time {
+    float: right;
+}

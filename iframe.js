@@ -28,7 +28,7 @@ function onYouTubeIframeAPIReady() {
         'onStateChange': onPlayerStateChange
         }
     });
-
+    
     const confirm = document.querySelector("#confirm")
     confirm.onclick = event => {
         event.preventDefault()
@@ -39,20 +39,40 @@ function onYouTubeIframeAPIReady() {
     
     const back = document.querySelector("#back")
     const advance = document.querySelector("#advance")
-
+    const muteButton = document.querySelector("#mute-button")
+    
     back.onclick = event => {
         event.preventDefault()
         player.seekTo(player.getCurrentTime() - 10, true)
     }
-
+    
     advance.onclick = event => {
         event.preventDefault()
         player.seekTo(player.getCurrentTime() + 10, true)
     }
+    
+    muteButton.onclick = event => {
+        event.preventDefault()
+        let muted = player.isMuted()
+        if (muted) {
+            player.unMute()
+            muteButton.value = "mute"
+        }
+        else {
+            player.mute()
+            muteButton.value = "unmute"
+        }
+    }
 }
 
 function onPlayerReady(event) {
-    event.target.playVideo();
+    const videoDuration = event.target.playerInfo.duration
+    const seconds = Math.floor(videoDuration % 60)
+    const minutes = Math.floor((videoDuration / 60) % 60)
+    const hours = Math.floor(videoDuration / (60 * 60))
+    const finalTime = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`
+    document.querySelector("#start-time").innerHTML = '00:00:00'
+    document.querySelector("#end-time").innerHTML = finalTime
 }
 
 function onPlayerStateChange(event) {
