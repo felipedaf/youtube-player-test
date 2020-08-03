@@ -33,13 +33,48 @@ function onYouTubeIframeAPIReady() {
     const confirm = document.querySelector("#confirm")
     
 
-    timeline.onclick = event => {
+    let timebarChange;
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING) {
+            timebarChange = setInterval(() => {
+                trackerGoTo(player, player.getCurrentTime())
+                console.log("teste")
+            }, 250)
+            playButton.onclick = () => {
+                player.pauseVideo()
+            }
+            playButton.value = "||"
+        }
+        if (event.data == YT.PlayerState.PAUSED || event.data == -1) {
+            playButton.onclick = () => {
+                player.playVideo()
+            }
+            playButton.value = "►"
+        }
+        if (event.data !== YT.PlayerState.PLAYING)
+            clearInterval(timebarChange)
+
+    }
+
+    const clickedTime = (player, event) => {
+        const positionClicked = event.clientX - timeline.offsetLeft
+        const localPercent = positionClicked / timeline.clientWidth
+        return player.getDuration() * localPercent
+    }
+
+    const trackerGoTo = (player, time) => {
         const tracker = document.querySelector("#tracker")
-        let positionClicked = event.clientX - timeline.offsetLeft
-        let localPercent = positionClicked / timeline.clientWidth
-        tracker.style.left = `${positionClicked}px`
-        player.seekTo(player.getDuration() * localPercent)
-        console.log(player.getDuration())
+        const percentage = time / player.getDuration()
+        const position = timeline.clientWidth * percentage
+        tracker.style.left = `${position}px`
+    }
+
+    timeline.onclick = event => {
+        clearInterval(timebarChange)
+        const time = clickedTime(player, event)
+        trackerGoTo(player, time)
+        player.seekTo(time)
     }
 
     confirm.onclick = event => {
@@ -72,20 +107,8 @@ function onPlayerReady(event) {
     const finalTime = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`
     document.querySelector("#start-time").innerHTML = '00:00:00'
     document.querySelector("#end-time").innerHTML = finalTime
+    
 }
 
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-        playButton.onclick = () => {
-            player.pauseVideo()
-        }
-        playButton.value = "||"
-    }
-    if (event.data == YT.PlayerState.PAUSED || event.data == -1) {
-        playButton.onclick = () => {
-            player.playVideo()
-        }
-        playButton.value = "►"
-    }
-}
+
 

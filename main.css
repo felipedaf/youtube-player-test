@@ -24,7 +24,7 @@ p {
     width: 1px;
     background-color: red;
     position: relative;
-    transition-duration: 0.15s;
+    transition-duration: 0.2s;
 }
 
 #controls {
