@@ -39,8 +39,8 @@ function onYouTubeIframeAPIReady() {
         if (event.data == YT.PlayerState.PLAYING) {
             timebarChange = setInterval(() => {
                 trackerGoTo(player, player.getCurrentTime())
-                console.log("teste")
-            }, 250)
+                startTimeGoTo(player, player.getCurrentTime())
+            }, 100)
             playButton.onclick = () => {
                 player.pauseVideo()
             }
@@ -63,17 +63,45 @@ function onYouTubeIframeAPIReady() {
         return player.getDuration() * localPercent
     }
 
+    const startTimeGoTo = (player, time) => {
+        const timeline = document.querySelector("#timeline")
+        const startTime = document.querySelector("#start-time")
+        const startMovingWidth = startTime.offsetWidth / 2
+        const percentage = time / player.getDuration()
+        const position = timeline.clientWidth * percentage
+        const finalWidth = (timeline.offsetWidth - startMovingWidth)
+        const endTime = document.querySelector("#end-time")
+        
+        startTime.innerHTML = userTimeFormat(time)
+
+        if (finalWidth - (2 * startMovingWidth) <= position)
+            endTime.style.opacity = "0"
+        else
+            endTime.style.opacity = "100%"
+
+        if (finalWidth <= position) {
+            startTime.style.left = `${finalWidth - startMovingWidth}px`
+        }
+        else if(position > startMovingWidth) {
+            startTime.style.left = `${position - startMovingWidth}px`
+        }
+        else if(position <= startMovingWidth) {
+            startTime.style.left = `0px`
+        }
+    } 
+
     const trackerGoTo = (player, time) => {
         const tracker = document.querySelector("#tracker")
         const percentage = time / player.getDuration()
         const position = timeline.clientWidth * percentage
-        tracker.style.left = `${position}px`
+        tracker.style.left = `${position - 1}px`
     }
 
     timeline.onclick = event => {
         clearInterval(timebarChange)
         const time = clickedTime(player, event)
         trackerGoTo(player, time)
+        startTimeGoTo(player, time)
         player.seekTo(time)
     }
 
@@ -99,16 +127,18 @@ function onYouTubeIframeAPIReady() {
     }
 }
 
-function onPlayerReady(event) {
+const onPlayerReady = event => {
     const videoDuration = event.target.playerInfo.duration
-    const seconds = Math.floor(videoDuration % 60)
-    const minutes = Math.floor((videoDuration / 60) % 60)
-    const hours = Math.floor(videoDuration / (60 * 60))
-    const finalTime = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`
-    document.querySelector("#start-time").innerHTML = '00:00:00'
-    document.querySelector("#end-time").innerHTML = finalTime
-    
+    const startTime = document.querySelector("#start-time")
+    startTime.innerHTML = '00:00:00'
+    document.querySelector("#end-time").innerHTML = userTimeFormat(videoDuration)
 }
 
-
-
+const userTimeFormat = time => {
+    const seconds = Math.floor(time % 60)
+    const minutes = Math.floor((time / 60) % 60)
+    const hours = Math.floor(time / (60 * 60))
+    const finalTime = `${hours < 10 ? '0'+hours : hours}:${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`
+    return finalTime
+    
+}

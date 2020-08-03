@@ -6,10 +6,16 @@
 }
 #end-time {
     float: right;
+    transition-duration: 0.2s;
 }
 
 #start-time {
-    float: left;
+    position: relative;
+    z-index: 10;
+    color: red;
+    transition-duration: 0.1s;
+    transition-property: left;
+    top: -2px;
 }
 
 p {
@@ -24,7 +30,8 @@ p {
     width: 1px;
     background-color: red;
     position: relative;
-    transition-duration: 0.2s;
+    transition-duration: 0.1s;
+    transition-property: left;
 }
 
 #controls {
