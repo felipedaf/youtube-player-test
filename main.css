@@ -2,19 +2,32 @@
     background-color: black;
     height: 5vh;
     width: 80vw;
-    margin: auto;
     opacity: 80%;
+}
+#end-time {
+    float: right;
+}
+
+#start-time {
+    float: left;
 }
 
 p {
-    display: inline-block;
+    display: inline;
     margin: 0;
     color: black;
-    position: relative;
-    top: 5vh;
     font-size: small;
 }
 
-#end-time {
-    float: right;
+#tracker {
+    height: 100%;
+    width: 1px;
+    background-color: red;
+    position: relative;
+    transition-duration: 0.15s;
+}
+
+#controls {
+    width: max-content;
+    margin: auto;
 }

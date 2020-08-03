@@ -27,29 +27,28 @@ function onYouTubeIframeAPIReady() {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
         }
-    });
-    
+    }
+    );
+    const timeline = document.querySelector("#timeline")
     const confirm = document.querySelector("#confirm")
+    
+
+    timeline.onclick = event => {
+        const tracker = document.querySelector("#tracker")
+        let positionClicked = event.clientX - timeline.offsetLeft
+        let localPercent = positionClicked / timeline.clientWidth
+        tracker.style.left = `${positionClicked}px`
+        player.seekTo(player.getDuration() * localPercent)
+        console.log(player.getDuration())
+    }
+
     confirm.onclick = event => {
         event.preventDefault()
         const youtubeId = document.querySelector("#youtube-id").value
         document.location = `index.html?id=${youtubeId}`
     }
     playButton = document.querySelector("#play")
-    
-    const back = document.querySelector("#back")
-    const advance = document.querySelector("#advance")
     const muteButton = document.querySelector("#mute-button")
-    
-    back.onclick = event => {
-        event.preventDefault()
-        player.seekTo(player.getCurrentTime() - 10, true)
-    }
-    
-    advance.onclick = event => {
-        event.preventDefault()
-        player.seekTo(player.getCurrentTime() + 10, true)
-    }
     
     muteButton.onclick = event => {
         event.preventDefault()
@@ -89,3 +88,4 @@ function onPlayerStateChange(event) {
         playButton.value = "►"
     }
 }
+
