@@ -1,5 +1,5 @@
 #timeline {
-    background-color: black;
+    background-color: #171717;
     height: 5vh;
     width: 80vw;
     opacity: 80%;
@@ -12,7 +12,7 @@
 #start-time {
     position: relative;
     z-index: 10;
-    color: red;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
     transition-duration: 0.1s;
     transition-property: left;
     top: -2px;
@@ -21,15 +21,16 @@
 p {
     display: inline;
     margin: 0;
-    color: black;
+    color: #18A0FB;
     font-size: small;
 }
 
 #tracker {
-    height: 100%;
+    height: 5vh;
     width: 1px;
-    background-color: red;
+    background-color: #18A0FB;
     position: relative;
+    bottom: 5vh;
     transition-duration: 0.1s;
     transition-property: left;
 }
@@ -37,4 +38,35 @@ p {
 #controls {
     width: max-content;
     margin: auto;
+}
+
+#limiter__wrapper {
+    display: flex;
+
+}
+
+#limiter {
+    height: 5vh;
+    z-index: 20;
+    background-color: #18A0FB;
+    width: 300px;
+    opacity: 10%;
+}
+
+#limiter__left {
+    width: 3px;
+    height: 5vh;
+    opacity: 100%;
+    background-color: #18A0FB;
+}
+
+#limiter__right {
+    width: 3px;
+    height: 5vh;
+    opacity: 100%;
+    background-color: #18A0FB;
+}
+
+html {
+    background-color: #292929;
 }
