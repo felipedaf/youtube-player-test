@@ -23,6 +23,8 @@ p {
     margin: 0;
     color: #18A0FB;
     font-size: small;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
 #tracker {
