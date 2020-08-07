@@ -5,7 +5,6 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 const urlId = new URLSearchParams(window.location.search).get('id')
 
-
 let player;
 let playButton;
 function onYouTubeIframeAPIReady() {
@@ -31,7 +30,51 @@ function onYouTubeIframeAPIReady() {
     );
     const timeline = document.querySelector("#timeline")
     const confirm = document.querySelector("#confirm")
+    const limiterRight = document.querySelector('#limiter__right')
+    const limiterLeft = document.querySelector('#limiter__left')
+    const limiterWrapper = document.querySelector('#limiter__wrapper')
+
     
+    let limiterLeftSelected = false
+    let limiterRightSelected = false
+    let limiterMoving = false
+    
+    limiterRight.onmousedown = e => {
+      if(!limiterRightSelected) {
+        limiterRightSelected = true
+      }
+    }
+    
+    limiterLeft.onmousedown = e => {
+      if(!limiterLeftSelected) {
+        limiterLeftSelected = true
+      }
+    }
+    
+    document.onmousemove = e => {
+      if(limiterRightSelected) {
+        limiterMoving = true
+        limiterWrapper.style.width = `${e.clientX - limiterWrapper.offsetLeft}px`
+      }
+      if(limiterLeftSelected) {
+        limiterMoving = true
+        const timelineSize = timeline.offsetWidth
+        const marginSize = limiterLeft.offsetLeft - timeline.offsetLeft
+        const difference = e.clientX - limiterWrapper.offsetLeft
+        if(marginSize + difference > 0)
+          limiterLeft.style.marginLeft = `${difference}px`
+
+      }
+    }
+
+    document.onmouseup = e => {
+      if(limiterRightSelected || limiterLeftSelected) {
+        limiterRightSelected = false
+        limiterLeftSelected = false
+        setTimeout(() => {limiterMoving = false}, 10)
+      }
+
+    }
 
     let timebarChange;
 
@@ -98,11 +141,13 @@ function onYouTubeIframeAPIReady() {
     }
 
     timeline.onclick = event => {
+      if((!limiterRightSelected || !limiterRightSelected) && !limiterMoving) {
         clearInterval(timebarChange)
         const time = clickedTime(player, event)
         trackerGoTo(player, time)
         startTimeGoTo(player, time)
         player.seekTo(time)
+      }
     }
 
     confirm.onclick = event => {

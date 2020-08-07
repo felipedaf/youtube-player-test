@@ -44,29 +44,27 @@ p {
 
 #limiter__wrapper {
     display: flex;
-
+    width: max-content;
+    min-width: 10px;
 }
 
 #limiter {
     height: 5vh;
     z-index: 20;
     background-color: #18A0FB;
-    width: 300px;
+    flex-grow: 1;
     opacity: 10%;
 }
 
-#limiter__left {
-    width: 3px;
-    height: 5vh;
-    opacity: 100%;
-    background-color: #18A0FB;
+.side__limiter {
+  width: 3px;
+  height: 5vh;
+  opacity: 100%;
+  background-color: #18A0FB;
 }
 
-#limiter__right {
-    width: 3px;
-    height: 5vh;
-    opacity: 100%;
-    background-color: #18A0FB;
+.side__limiter:hover {
+  width: 5px;
 }
 
 html {
